@@ -113,10 +113,12 @@ function editOnInput(editor: DraftEditor, event: ?SyntheticInputEvent<>): void {
   const offsetKey = nullthrows(findAncestorOffsetKey(anchorNode));
   const {blockKey, decoratorKey, leafKey} = DraftOffsetKey.decode(offsetKey);
 
-  const {start, end} = editorState
-    .getBlockTree(blockKey)
-    .getIn([decoratorKey, 'leaves', leafKey]);
+  const blockTree = editorState.getBlockTree(blockKey);
+  if (blockTree === undefined) {
+    return;
+  }
 
+  const {start, end} = blockTree.getIn([decoratorKey, 'leaves', leafKey]);
   const content = editorState.getCurrentContent();
   const block = content.getBlockForKey(blockKey);
   const modelText = block.getText().slice(start, end);
