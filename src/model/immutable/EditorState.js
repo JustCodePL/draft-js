@@ -712,7 +712,7 @@ function getInlineStyleForCollapsedSelection(
 
   // The caret is at position zero in this block. If the block has any
   // text at all, use the style of the first character.
-  if (startBlock.getLength()) {
+  if (startBlock?.getLength()) {
     return startBlock.getInlineStyleAt(0);
   }
 
